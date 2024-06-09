@@ -220,8 +220,6 @@ Wireshark main window consists of these parts that are commonly called GUI progr
 6. The packet bytes pane displays the data from the packet selected in the packet list pane and highlights the field
    selected in the packet details pane.
 7. The status bar shows some detailed information about the current program state and the captured data.
-8. There is also `+` sign attached with `Filter Toolbar` so you can also add the another `pcap` file or scan the
-   traffic of another user.
 
 
 #### The Menu
@@ -314,3 +312,293 @@ Actions of this filter toolbar are described below
 ![25](https://github.com/0xsh4d0w/IDK/assets/120315651/0cdf7e23-9868-4d7c-b714-1a0c74734f82)
 
 For more Info: https://www.wireshark.org/docs/wsug_html_chunked/ChUseMainToolbarSection.html
+
+
+#### The Filter Toolbar
+
+The filter toolbar lets you quickly edit and apply display filters.
+
+![26](https://github.com/0xsh4d0w/IDK/assets/120315651/336fa853-cbe9-4c0d-989c-7867aafe7d4f)
+
+Actions of this filter toolbar are described below
+
+![27](https://github.com/0xsh4d0w/IDK/assets/120315651/32943393-b964-42cf-a553-85fd4daf8da9)
+
+
+#### The Packet list Pane
+
+The Packet list pane displays all the packets in the order they were recorded.
+
+![28](https://github.com/0xsh4d0w/IDK/assets/120315651/7f145102-5bda-4f2a-854d-642300b9558d)
+
+Each line in the packet list corresponds to one packet in the capture file select the lines to get more details.
+More details will be displayed in the packet details pane and packet byte panes.
+
+There are lots of column available such as:
+
+* No: The number of the packet in the capture file. This number won't change, even if a display filter is used.
+* Time: The timestamp of when the packet was captured is displayed in this column. The presentation format of this
+	timestamp can be changed.
+* Source: The address where this packet is coming from.
+* Destination: The address where this packet is going.
+* Protocol: The highest-level protocol that wireshark can detect.
+* Length: The length in bytes of each packet.
+* info: Additional information about the packet content.
+
+
+#### The Packet details pane
+The packet details pane shows the selected or current packet in a detailed form.
+
+![29](https://github.com/0xsh4d0w/IDK/assets/120315651/17b01509-6899-4559-bd57-20dcf7d07369)
+
+The above pane shows the protocols and protocol fields of the packet selected in the “packet list” pane. 
+The protocols are shown in a tree which can be expanded and collapsed.’’
+
+
+#### The Packet Bytes pane
+
+The Packet bytes pane shows the data of the selected or current packet in `hex dump` style.
+
+![30](https://github.com/0xsh4d0w/IDK/assets/120315651/3bd7f80c-5a5b-4891-8bef-c8091b2baad4)
+
+The packet bytes pane shows a `canonical hex dump` of the packet data. Each line contains the data offset, `sixteen 
+hexadecimal bytes` and `sixteen ASCII bytes`.Non-Printable bytes are replaced with period `"."`
+
+
+#### The Status bar
+
+The status bar displays informational messages such as
+
+![31](https://github.com/0xsh4d0w/IDK/assets/120315651/9e04a522-e008-4b9f-91bf-2a36119cf71c)
+
+
+##### The colourized bullet
+
+The left side shows the highest expert information in the currently loaded capture file. 
+Hovering the mouse on the colourized bullet will show you a description of the expert information level.
+
+##### The edit icon
+
+This allows you to add a comment to the capture file using the capture file properties dialogue.
+
+##### The middle
+
+It shows the current number of packets in the capture file. The following values are displayed:
+
+##### Packets
+
+The number of packets is being captured.
+
+##### Displayed
+
+The number of packets is being displayed.
+
+##### Marked
+
+The number of marked packets. Only displayed if you mark any packets in the capture.
+
+##### Dropped
+
+It shows the number of dropped packets. only displayed If Wireshark was unable to capture all packets.
+
+##### Ignored
+
+It shows the number of ignored packets and it will only be displayed if you ignore any of the packets.
+
+##### The right side
+
+it shows the selected configuration profile. Clicking on this part of the status bar will bring up a menu with all
+available configuration profiles, and selecting from this list will change the configuration profile.
+
+![32](https://github.com/0xsh4d0w/IDK/assets/120315651/3de95fd7-0ac3-4491-9408-74d6216bf540)
+
+
+# Packet Capturing
+
+The following methods can be used to start capturing packets.
+You can double-click on the interface in the welcome screen of wireshark.
+
+If you already know the name of the `capture interface` then you can start wireshark from the command line by 
+running the following command in the terminal.
+
+```
+wireshark -I eth0 -k
+```
+
+This will start wireshark capturing on `interface eth0`
+
+Once you have captured some packets you can view the packets that are displayed in the `packet list pane` by simply 
+clicking on a packet on a `packet list pane`, which will bring up the selected packet in the `tree view` and `byte
+view panes`. As soon you capture some traffic then you need to apply some filter to make it easily understandable.
+
+--> Wireshark has two filtering languages:
+
+ * Capture filters.
+ * Display filters.
+
+`Capture filters` are used for filtering when capturing packets and `Display filters` are used for filtering which 
+packets are displayed.Wireshark provides a display filter language that enables you to precise control which packets
+are displayed.
+
+
+# Display filter fields
+
+Wireshark's display filters a bar located right above the column display section. To only display packets containing
+a particular protocol, type the protocol into wireshark's display filter toolbar wireshark offers a list of 
+suggestion based on the text you typed.
+
+For example, to only display `TCP Packets`, type tcp with wireshark's display filter toolbar.
+
+![33](https://github.com/0xsh4d0w/IDK/assets/120315651/a78e28b6-ec8b-4734-9cd1-acef5c288e98)
+
+Similarly, to only display packets containing a particular field, type the field into Wireshark’s display filter 
+toolbar. For example, to only display `HTTP requests`, type `http.request` into Wireshark’s display filter toolbar
+and it will accept the expression and works as intended.
+
+![34](https://github.com/0xsh4d0w/IDK/assets/120315651/84377537-94a5-4631-a770-10b482f9e72f)
+
+A similar example of Wireshark display filter accepting an expression but it does not work as intended such as 
+type `DNS and ip.addr != 10.96.203.66`.
+
+![35](https://github.com/0xsh4d0w/IDK/assets/120315651/793596a7-47de-4076-8eaa-2915568525cd)
+
+As you saw above the expression works but not intended.
+As we have noticed these packet captures have `different colours`. So, what are these colours intended for…?
+
+Don’t get confused with a different type of colour packets. These colours are intended for
+
+* gray - `TCP packets`.
+* Black with red letters - `TCP packets with errors`.
+* Green - `HTTP Packets`.
+* Light Blue - `UDP Packets`.
+* Pale Blue - `ARP Packets`.
+* Lavender - `ICMP Packets`.
+* Black with green Letters - `ICMP Packets with errors`.
+
+`Note: – Colourings can be changed under View -> Colouring Rules`
+
+
+# Building Display Filter expressions.
+
+we can build display filters that compare values using a different type of comparison operator.
+
+For Example to only display packets to or from the `IP address 192.168.0.124` use `ip.addr==192.168.0.124`.
+wireshark display filter uses `Boolean expressions`, so we can specify values and chain them together. 
+A complete list of available comparison operators is shown below.
+
+![36](https://github.com/0xsh4d0w/IDK/assets/120315651/0f7879fd-46c1-4d4f-98e0-54aaafe5aaf9)
+
+
+
+# Some Useful Filters
+
+Here are some filter expressions that can be used as a way to quickly review web traffic.
+
+Let's understand this with some sort of methods like how we are going to filter some infectious traffic.
+
+Open the Packet Capture and apply the following filter: `"http.request"`. 
+This filter will show all `HTTP POST Request`. Also, you can find the total no. of packets at the bottom of the 
+wireshark screen are 16 at these packets.
+
+```
+http.request
+```
+
+ ![37](https://github.com/0xsh4d0w/IDK/assets/120315651/770a2363-3797-46f0-a429-575635a3a5a4)
+
+After that to reveal all the URLs for HTTP requests, Domain names we can use the following expression as a way to 
+quickly review web traffic:
+
+```
+http.request or ssl.handshake.type == 1
+```
+
+The value `http.request` reveals URLs for HTTP Requests, and `SSL.handshake.type == 1` reveal domain names used in
+`HTTPS or SSL/TLS traffic.` Filtering with this display filter can outline the flaw of events for the web traffic.
+
+![38](https://github.com/0xsh4d0w/IDK/assets/120315651/b438ed9c-9762-4448-8b55-6bbed4d6079a)
+
+By modifying these types of filters, you can drill down the `infectious traffic`.
+
+
+# More Filters and ways to learn wireshark more effective way
+
+1. Finding out the total number of `TCP SYN packet for port 80`
+
+To reveal all the `TCP SYN packets` we can use the following expression as a way to quickly review web traffic for 
+port 80. Also, you can find the total no. of packets at the bottom of the wireshark screen that are 4 of these 
+packets.
+
+```
+tcp.flags.syn == 1 and tcp.flags.ack == 0 && tcp.port == 80
+```
+
+![39](https://github.com/0xsh4d0w/IDK/assets/120315651/3a15afb7-3468-44c4-9d35-0e4ed679444f)
+
+
+2. Filtering out all the packet with the `HTTP Response Code 200`.
+
+The value `http.respone` reveals URLs for HTTP responses, and `HTTP status code 200` means success.
+The client has requested documents from the server. The server has replied to the client and given the
+client the documents. Filtering with this display filter can outline the flaw of events for the web traffic.
+
+```
+http.response.code == 200
+```
+
+![40](https://github.com/0xsh4d0w/IDK/assets/120315651/38f35c5f-80f7-44a2-b330-cbf6ec9f34f7)
+
+3. An Attacker try to download the malicious file from www.ethereal.com.
+   Write down the filter to identify the `http host`.
+
+   In this case, we have to find out the host who have visited the malicious website. As we know each website have
+   own URL. So simply we can find out the host by using the following expression who have visited a malicious
+   website.
+
+   ```
+   http.host=="www.ethereal.com" or http.host == "URL"
+   ```
+
+![41](https://github.com/0xsh4d0w/IDK/assets/120315651/33968f61-656e-430b-98d2-c2a997f056ac)
+
+
+4. Write down the filter to identity the destination port 23.
+
+You can use the following expression to filter out the `destination port 23`.
+
+```
+tcp.dstport == 23
+```
+
+![42](https://github.com/0xsh4d0w/IDK/assets/120315651/0c0fb9bf-3fff-49a3-8e9f-0dfad3070d16)
+
+
+5. Filtering out the packets on behalf of the `mac address`.
+
+Apply the following expressions to filter out the traffic for the specific `mac address`.
+
+```
+eth.addr == 00:a0:cc:3b:bf:fa
+ or
+eth.addr == "mac addr"
+```
+
+![43](https://github.com/0xsh4d0w/IDK/assets/120315651/a6e67e1d-b448-435c-a17c-f6ade3a95747)
+
+
+6. Writing down the filter to identify the IP address `10.96.203.66 for port 80` also including the
+   `IP address 10.121.1.161`. find out the total no. of the packet.
+
+In this situation, we can create our custom filter for these types of random scenarios by using logical operators 
+such as
+
+```
+ip.addr==10.96.203.66 && tcp.port == 80 &&!(ip.addr==10.121.1.161)
+```
+
+By applying this filter, we can easily find out the total packets that are 3 of these packets.
+
+![44](https://github.com/0xsh4d0w/IDK/assets/120315651/bbfc7c80-ee8a-41c3-a619-11b2583abf1e)
+
+
+
