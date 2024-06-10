@@ -477,6 +477,24 @@ Don’t get confused with a different type of colour packets. These colours are 
 
 `Note: – Colourings can be changed under View -> Colouring Rules`
 
+Colouring Packets
+
+Along with quick packet information, Wireshark also colour packets in order of different conditions and the protocol to spot anomalies and protocols in captures quickly. This glance at packet information can help track down exactly what you're
+looking for during analysis. You can create custom colour rules to spot events of interest by using display filters.
+
+
+Wireshark has two types of packet colouring methods: 
+temporary rules that are only available during a program session and permanent rules that are saved under the preference file (profile) and available for the next program session. You can use the "right-click menu" or
+"View --> Coloring Rules" menu to create permanent colouring rules.
+The "Colourise Packet List" menu activates/deactivates the colouring rules. Temporary packet colouring is done with the "right-click menu" or "View --> Conversation Filter" menu. 
+
+# View File Details
+
+Knowing the file details is helpful. Especially when working with multiple pcap files, sometimes you will need 
+to know and recall the file details (File hash, capture time, capture file comments, interface and statistics) 
+to identify the file, classify and prioritise it. You can view the details by following 
+`"Statistics --> Capture File Properties"` or by clicking the "pcap icon located on the left bottom" of the
+window.
 
 # Building Display Filter expressions.
 
