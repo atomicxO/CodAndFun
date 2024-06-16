@@ -803,12 +803,13 @@ This makes it extremely difficult for organizations to completely eliminate it. 
 There is not a rocket science just follow my steps.
 
 Step1: Fast Filter the only `Telnet` traffic by using the `telnet` filter.
+
 Step2: Now you can see the `Analyze` option above of filter bar. Click on it and find `Follow` 
 	Option.
+
 Step3: When you find `Follow` Options click on it and select `TCP Stream` and Boom you got the 
        login activity and creds of the telnet network.
  
 ![12](https://alan-kelly.ie/blogimages/securitypics/securityimage23.png)
   
 So, that now you can see an attacker completely overtake the Mainframe System.
-
