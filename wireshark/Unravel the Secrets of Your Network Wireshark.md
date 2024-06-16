@@ -813,3 +813,99 @@ Step3: When you find `Follow` Options click on it and select `TCP Stream` and Bo
 ![12](https://alan-kelly.ie/blogimages/securitypics/securityimage23.png)
   
 So, that now you can see an attacker completely overtake the Mainframe System.
+
+
+
+#### Capture FTP Password
+
+File Transfer Protocol (FTP) usually uses the `TCP/20` or `TCP/21` ports. Although this protocol is
+very old. It is still in their networks by some organizations FTP is a plain text protocol so a well-
+positioned attacker can capture `FTP login credentials` with wireshark very easily. This how you 
+captured a `FTP Password` with wireshark.
+
+![13](https://github.com/0xsh4d0w/IDK/assets/120315651/85980be2-f3a3-47c6-8037-eb61086dbe18)
+
+or you can also do the same step that we did on telnet sniffing above from this post.
+
+As you can see by sitting in a network, we can easily capture FTP credentials.
+
+
+
+#### Capture SMTP Password
+
+For many decades, we have also been accompanied by `SMTP (Simple Mail Transfer Protocol)`.
+It uses `TCP/25` and although the port `TCP/464` is `secure`, today the port `TCP/25` is almost
+opened on each mail server because of reverse compatibility.
+
+Many `TCP/25` servers need the command `STARTTLS` to begin the encryption of `SSL/TLS` before any
+attempts are made to authenticate it. However, mail servers still support plain text authentication
+across the unencrypted channel within certain organizations.
+Mostly because of heritage systems in your internal networks.
+
+If someone is using `plain text` authentication during an `SMTP transaction`, the credentials can be
+sniffed from a well-positioned attacker. The attacker must only decode the `username` and `password`
+from `base64`. `SMTP` uses `Base 64` encoding for the transaction to encode the `username` and
+`password`.
+
+A captured SMTP credentials can be seen in the following:
+
+![14](https://github.com/0xsh4d0w/IDK/assets/120315651/28b3c1df-dde3-422b-aad1-56b0e406f7bb)
+
+Yah we you get the encoded password and username you can use online tools like `cyberchef` and 
+`base64` encoder and decoder.
+
+But I use the terminal tool:
+
+```
+echo "string encoded in base64" | base64 -d 
+```
+Username: gurpartap@patriots.in      
+Password: punjab@123                                                                                
+
+Hurray!!! Now we have got enough credentials to take over a system.
+
+
+
+
+#### Analyzing SNMP Community String
+
+`Simple Network Management Protocol (SNMP)` typically runs on port `UDP/161`. 
+The main objective is network devices and their functions to manage and monitor.
+SNMP have `3 versions` and the `first 2 (v1 and v2c)` versions are plain text.
+SNMP uses something that is equivalent to `authentication`, named `community string`.
+Therefore, it is almost the same to capture the SNMP community string as to capture credentials.
+
+While `SNMPv3` has been with us for nearly two decades, it takes time. 
+In their internal networks, most organizations still use `v1` or `v2c`.
+Typically this is due to the backwards compatibility in their networks with legacy systems.
+
+An example of the SNMP community string captured using Wireshark is:
+
+![17](https://github.com/0xsh4d0w/IDK/assets/120315651/538cfd03-7261-4d9d-9892-6685b127d589)
+
+
+An attacker could now use the community string and collect detailed system information.
+This could enable the attacker to learn about the system `insensitive detail` and to make further
+attempts.
+Note that the community string sometimes also allows you to modify your 
+`remote system configuration` (read/write access).
+
+
+
+#### Capture MSSQL Password
+
+The Microsoft `SQL` server usually runs on `TCP/1433` port; this is yet another service we use with
+wireshark to capture the password. If the server is not configured using the `ForceEncryption`
+option. It is possible to record plain text authentication directly or via a downgrade attack.
+MSSQL credentials can be easily captured by a `man in the middle`.
+
+Here's an example of wireshark-captured MSSQL.
+
+![18](https://github.com/0xsh4d0w/IDK/assets/120315651/41dd0126-2f2f-457a-bdaa-cb49e75a6a63)
+
+Now, we have a `privileged account` of the MSSQL server. Therefore, this would have a critical
+impact allowing the attacker to take complete control over the database server or it could also lead
+to `remote command execution (RCE)`.
+
+
+
