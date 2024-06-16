@@ -808,7 +808,7 @@ Step2: Now you can see the `Analyze` option above of filter bar. Click on it and
 Step3: When you find `Follow` Options click on it and select `TCP Stream` and Boom you got the 
        login activity and creds of the telnet network.
  
-![12](https://github.com/0xsh4d0w/IDK/assets/120315651/77ac8d4f-13f2-48fd-b63e-b447a2a24fb0)
+![12](https://alan-kelly.ie/blogimages/securitypics/securityimage23.png)
   
 So, that now you can see an attacker completely overtake the Mainframe System.
 
