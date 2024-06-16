@@ -620,3 +620,185 @@ By applying this filter, we can easily find out the total packets that are 3 of 
 
 
 
+# Wireshark for Password Sniffing
+
+Wireshark can capture not only passwords, but any type of data passing through a network – usernames, 
+email addresses, personal information, pictures, videos, or anything else. Wireshark can sniff the passwords 
+passing through as long as we can capture network traffic.
+
+
+## Table of Contents
+
+* Capture HTTP Password
+* Monitoring HTTPS Packets over SSL or TLS
+* Capture Telnet Password
+* Capture FTP Password
+* Capture SMTP Password
+* Analyzing SNMP Community String
+* Capture MSSQL Password
+* Capture PostgreSQL Password
+* Creating Firewall Rules with Wireshark
+* Conclusion
+
+
+Note: Some Network Protocols do not use encryption. These protocols are referred to as `clear text` (or plain text)
+      protocols.Becuase clear text protocols do not encrypt communication, all data, including passwords, is visible
+      to the naked eye. That's how wireshark capture any passwords easily.
+      Anyone who is in a position to see the communication (for example, a man in the middle) can eventually see 
+      everything.
+
+
+#### Capture HTTP Password
+
+No introduction is certainly needed for the Hypertext Transfer Protocol (HTTP). It usually works on port 80/TCP,
+and as it is a text protocol, it does not give the communication parties much or no privacy.
+Anyone who’s able to communicate can catch everything, including passwords, via that channel.
+
+```
+What is a channel?
+>> A channel is used for information transfer of, for example, a digital bit stream, from one or several senders to
+   one or several receivers.
+```
+
+```
+Another Important Note:-
+
+Before start analyzing any packet,
+please turn off “Allow subdissector to reassemble TCP streams”(Preference → Protocol → TCP)(This will prevent
+TCP packet to split into multiple PDU unit)  
+```
+
+> Here is an example of login credentials captured in a `POST` request in an `HTTP` Communication.
+> So, here we will see how we can capture the password using the Wireshark network capture analyzer. and see
+  the outputs of the following steps.
+
+Step 1: First of all, open your Wireshark tool in your window or in Linux virtual machine. and start capturing the
+        network. suppose I am capturing my wireless fidelity.
+
+![low5-1024](https://github.com/0xsh4d0w/IDK/assets/120315651/db8676a0-14ec-4509-9f1f-4f7cbbfda2f3)
+
+Step 2: After starting the packet capturing we will go to the website and login the credential on that website as 
+	you can see in the image.
+ 
+ ![tony](https://github.com/0xsh4d0w/IDK/assets/120315651/9b419093-65b0-4ae1-b3d9-ad027d0b71c2)
+
+Step 3: Now after completing the login credential we will go and capture the password in Wireshark. for that we have
+        to use some filter that helps to find the login credential through the packet capturing.         
+
+Step 4: Wireshark has captured some packets but we specifically looking for HTTP packets. so in the display filter
+	bar we use some command to find all the captured HTTP packets. as you can see in the below image the green
+ 	bar where we apply the filter.
+  
+  ```
+	http
+  ```
+
+![tony2-(1)-1024](https://github.com/0xsh4d0w/IDK/assets/120315651/8ea7b6cd-bf45-4799-bfc0-330fe403400f)
+
+Step 5: So there are some HTTP packets are captured but we specifically looking for form data that the user 
+	submitted to the website. for that, we have a separate filter 
+
+As we know that there are main two methods used for submitting form data from web pages like login forms to 
+the server. the methods are-
+
+* GET 
+* POST 
+
+Step 6: So firstly for knowing the credential we use the first method and apply the filter for the GET methods as 
+	you can see below.
+ 
+```
+http.request.method == "GET"
+```
+
+![tony3-1024](https://github.com/0xsh4d0w/IDK/assets/120315651/f0258907-a092-4b4e-b73c-01cd6f06d55f)
+
+As you can see in the image there are two packets where the login page was requested with a `GET request` as well,
+but there is no form data submitted with a GET request. 
+
+Step 7: Now after checking the GET method if we didn’t find the form data, then we will try the POST method for that 
+	we will apply the filter on Wireshark as you can see. 
+
+```
+http.request.method == "POST"
+```
+
+![tony4-1024](https://github.com/0xsh4d0w/IDK/assets/120315651/65f6f89d-8ec7-4929-8a6e-f603b45561e0)
+
+As you can see we have a packet with form data click on the packet with user info and the `application URL encoded`.
+and click on the down-
+
+`HTML form URL Encoded` where the login credential is found.
+login credential as it is the same that we filed on the website in `step 2`.
+
+```
+Form item: "uname" = "Tonystark_44"
+Form item: "pass" = "tony@1234"
+```
+
+
+
+#### Dissect HTTPS Capture
+
+![HTTPs-Capture](https://miro.medium.com/v2/resize:fit:720/format:webp/1*V5Fftdzs9tP48Gkx7Zdltw.png)
+
+as you can see
+
+* 3 Way handshake is happening.
+* Hello from `SSL` client and then acknowledgment from server.
+* Server Hello and then `ACK`.
+* Exchanging some key and cipher information.
+* Finally it actually start exchanging data.
+
+Then we click on any `application data` that data is unreadable to  us it's all gibberish and useless but with 
+wireshark we can decrypt that data only thing we need is the `Private Key` of the server.
+
+![HTTPs-Capture](https://miro.medium.com/v2/resize:fit:720/format:webp/1*GX9egA81_ea0ypIALRFY1g.png)
+
+Step 1:
+```
+Once again go to Preference → Protocol → SSL
+```
+
+Step 2:
+```
+Add these Values
+
+IP address: 127.0.0.1
+
+Port: 443
+
+Protocol: http
+
+key File: https://wiki.wireshark.org/uploads/__moin_import__/attachments/SampleCaptures/snakeoil2_070531.tgz
+```
+![10](https://github.com/0xsh4d0w/IDK/assets/120315651/e0cc884c-e0cd-4a7d-9bb6-3abbc3622174)
+
+As you can see data is now decrypted
+
+![Decrypt](https://miro.medium.com/v2/resize:fit:1100/format:webp/1*O4VfKjonieb5WCHstu8rfA.png)
+
+So, See That's how you decrypt the HTTPS encrypted application data.
+
+
+
+#### Capture Telnet Password
+
+No introduction is required for Telnet protocol using port `tcp/23`. It is mainly used for
+`administrative convenience` and is known for its insecurity. Since encryption is not available, privacy or
+unauthorized access protection is not available. Telnet is still used today, however…
+
+Telnet is a protocol used for administration on a wide range of devices. Telnet is the only option for some devices,
+with no other options (e.g. there is no SSH nor HTTPS web interface available). 
+This makes it extremely difficult for organizations to completely eliminate it. Telnet is commonly seen on:
+
+* Video Conferencing Systems
+* Mainframes
+* Network equipment
+* Storage and Tape systems
+* Imaging devices
+* Legacy IP based Phones
+
+
+
+So, that now you can see an attacker completely overtake the Mainframe System.
