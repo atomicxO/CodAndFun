@@ -909,3 +909,45 @@ to `remote command execution (RCE)`.
 
 
 
+#### Capture PostgreSQL Password
+
+`PostgreSQL` is yet another widely used `SQL Database Server`.
+It runs on `TCP Port 5432` and accepts a variety of authentication methods. It is usually set to
+disallow clear-text authentication, but it can also be set to allow it.
+In such cases, a well-positioned attacker could intercept network traffic and obtain the username
+and password.
+
+It should be noted that PostgreSQL authentication occurs in multiple packets. 
+The `username` and `database name` comes first:
+
+![19](https://github.com/0xsh4d0w/IDK/assets/120315651/a74cea04-555a-4eac-ae74-cb884c9c412b)
+
+We can also see the PostgreSQL password in the following network packet:
+
+![20](https://github.com/0xsh4d0w/IDK/assets/120315651/76d96008-7744-4dfe-81fb-1561b90188bd)
+
+
+
+#### Creating Firewall Rules with Wireshark
+
+Although Wireshark cannot block network traffic, it can assist us in the `development of firewall`
+`rules for our firewall`. Wireshark will create firewall rules based on the traffic we’re looking
+at. To block a packet, all we have to do is pick it and navigate through the menu:
+
+![21](https://github.com/0xsh4d0w/IDK/assets/120315651/b97c4e94-078c-4d74-a3b5-e51423f9e8ce)
+
+
+Selected rules can now be copied and pasted directly into our firewall. 
+The following firewalls’ syntax is supported by Wireshark:
+
+* Windows Firewall(netsh)
+* IP Filter(ipfw)
+* NetFilter (iptables)
+* Packet Filter(pf)
+
+#### Conclusion
+
+Wireshark can catch authentication for a wide range of network protocols. There is a possibility as
+long as we have the ability to eavesdrop on network traffic and the communication is not encrypted.
+Passwords aren’t the only thing that a well-placed attacker can capture; 
+virtually any type of data passing through the network can be captured.
