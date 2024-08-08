@@ -87,3 +87,47 @@ your program.
 =end
 
 
+
+#################
+#     Retry     #
+#################
+
+
+#!/usr/bin/ruby -w
+=begin
+
+# `retry` Keyword
+
+> The `retry` keyword is used inside a `begin-rescue` block to retry the execution of the code that  caused an exception. Unlike `redo`, `retry` re-executes the entire `begin` block.
+
+=end
+
+
+# Let's see an example of retry command usage:
+
+def divide(x, y)
+  begin
+    result = x / y
+    puts "Result is #{result}."
+  rescue ZeroDivisionError
+    puts "Cannot divided by zero. Please provide a non-zero denominator."
+    # Retry the block of code.
+    retry
+  end
+end
+
+divide(10, 0)  # This will cause a ZeroDivisonError and retry
+
+
+=begin
+
+[+] Explanation:
+
+1. The `begin` block tries to execute the division operation.
+2. If a `ZeroDivisionError` is raised (when 'y' is '0'), the `rescue` block is executed.
+3. In the 'rescue' block, a message is printed, and then `retry` is used to re-execute the entire
+   `begin` block.
+4. Since `retry` will re-execute the `begin` block, it will re-prompt the user or reattempt the
+   operation, which could be useful if the error condition can be corrected dynamically.
+
+=end
