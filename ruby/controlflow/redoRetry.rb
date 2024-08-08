@@ -131,3 +131,22 @@ divide(10, 0)  # This will cause a ZeroDivisonError and retry
    operation, which could be useful if the error condition can be corrected dynamically.
 
 =end
+
+
+puts "\n\n"
+
+#!/usr/bin/ruby -w
+
+def get_num
+  begin
+    puts "Please enter a Number: "
+    input = gets.chomp
+    number = Integer(input) # This will raise an exception if the input is not an integer
+    puts "You entered : #{number}."
+  rescue ArgumentError
+    puts "That's not a valid number. Please Try again."
+    retry
+  end
+end
+
+get_num
