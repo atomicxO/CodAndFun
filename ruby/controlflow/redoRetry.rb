@@ -48,5 +48,42 @@ puts "[+] Generated a unique ID: #{new_id}."
 =end
 
 
+# If you don't understand Look here may you get what i'm trying to say:-
+
+# `redo` keyword.
+# The 'redo` keyword is used within a loop to re-execute the current iteration.
+# when `redo` is encountered, it does not re-evaluate the loop's condition; it simply starts the
+# iteration over from the beginning.
+
+# Let's see an example code:
+
+i = 0
+
+while i < 5
+  puts "i is #{i}"
+  if i == 2
+    puts "Redoing iteration when i is 2.\n"
+    i += 1
+    redo
+  end
+  i += 1
+end
+
+=begin
+
+Note:
+
+Explanation of redo statement:
+
+> The while loop will continue to iterate as long as i < 5.
+> When i is 2, the redo keyword is encountered.
+> This causes the current iteration to start over from the beginning without re-evaluating the
+  condition.
+> The value of i is incremented before the redo to prevent an infinite loop.
+
+If you remove the incementation when the redo encountered you get in infinite loop this will crash
+your program.
+
+=end
 
 
