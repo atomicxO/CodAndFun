@@ -15,12 +15,12 @@ if(n <= 0)
 printf("Enter a Positive Number!\n");
 }else{
 if(n >= 1){
-printf("%lld\n",a);
+printf("%lld ",a);
 } 
 
 if(n >= 2)
 {
-printf("%lld\n",b);
+printf("%lld ",b);
 }
 }
 
