@@ -5,7 +5,7 @@
 int main(void)
 {
   int n;
-  long long a,b,result;
+  long long a = 0,b = 1,result;
 
   printf("Enter a Positive Integer here for Input: ");
   scanf("%d",&n);
